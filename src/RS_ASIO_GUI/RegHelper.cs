@@ -1,10 +1,11 @@
 ﻿using Microsoft.Win32;
+using System;
 
 namespace RS_ASIO_GUI
 {
     class RegHelper
     {
-        public static string[] GetAsioDevices()
+        public static void GetAsioDevices(out string[] devNames, out Guid[] devGuids)
         {
             var asioKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Default).OpenSubKey(@"Software\ASIO");
             var clsidKey = RegistryKey.OpenBaseKey(RegistryHive.ClassesRoot, RegistryView.Default).OpenSubKey(@"CLSID");
@@ -14,7 +15,9 @@ namespace RS_ASIO_GUI
 
             if (devices != null)
             {
-                var result = new string[devices.Length];
+                devNames = new string[devices.Length];
+                devGuids = new Guid[devices.Length];
+
                 for (int i = 0; i < devices.Length; i++)
                 {
                     string devName = null;
@@ -25,13 +28,15 @@ namespace RS_ASIO_GUI
                     if (clcid != null)
                         devName = clsidKey.OpenSubKey(clcid)?.GetValue(string.Empty).ToString();
 
-                    result[i] = devName ?? "undefined";
+                    devNames[i] = devName ?? "undefined";
+                    devGuids[i] = new Guid(clcid);
                 }
-
-                return result;
             }
             else
-                return new string[0];
+            {
+                devNames = new string[0];
+                devGuids = new Guid[0];
+            }
         }
     }
 }

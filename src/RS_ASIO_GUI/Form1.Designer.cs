@@ -94,7 +94,7 @@
             this.groupBox2.Controls.Add(this.bufferModeCombo);
             this.groupBox2.Location = new System.Drawing.Point(12, 96);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(295, 120);
+            this.groupBox2.Size = new System.Drawing.Size(295, 130);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "ASIO";
@@ -156,7 +156,7 @@
             this.groupBox3.Controls.Add(this.OutputControl);
             this.groupBox3.Location = new System.Drawing.Point(324, 12);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(295, 204);
+            this.groupBox3.Size = new System.Drawing.Size(295, 214);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Asio.Output";
@@ -164,9 +164,9 @@
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.Input0Control);
-            this.groupBox4.Location = new System.Drawing.Point(12, 222);
+            this.groupBox4.Location = new System.Drawing.Point(12, 232);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(295, 201);
+            this.groupBox4.Size = new System.Drawing.Size(295, 214);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Asio.Input.0";
@@ -174,9 +174,9 @@
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.Input1Control);
-            this.groupBox5.Location = new System.Drawing.Point(324, 222);
+            this.groupBox5.Location = new System.Drawing.Point(324, 232);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(295, 201);
+            this.groupBox5.Size = new System.Drawing.Size(295, 214);
             this.groupBox5.TabIndex = 4;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Asio.Input.1";
@@ -184,7 +184,7 @@
             // OkButton
             // 
             this.OkButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.OkButton.Location = new System.Drawing.Point(463, 429);
+            this.OkButton.Location = new System.Drawing.Point(465, 452);
             this.OkButton.Name = "OkButton";
             this.OkButton.Size = new System.Drawing.Size(75, 23);
             this.OkButton.TabIndex = 5;
@@ -194,7 +194,7 @@
             // 
             // ExitButton
             // 
-            this.ExitButton.Location = new System.Drawing.Point(544, 429);
+            this.ExitButton.Location = new System.Drawing.Point(546, 452);
             this.ExitButton.Name = "ExitButton";
             this.ExitButton.Size = new System.Drawing.Size(75, 23);
             this.ExitButton.TabIndex = 5;
@@ -204,7 +204,7 @@
             // 
             // runRsButton
             // 
-            this.runRsButton.Location = new System.Drawing.Point(12, 429);
+            this.runRsButton.Location = new System.Drawing.Point(12, 452);
             this.runRsButton.Name = "runRsButton";
             this.runRsButton.Size = new System.Drawing.Size(96, 23);
             this.runRsButton.TabIndex = 5;
@@ -216,7 +216,7 @@
             // 
             this.Input1Control.Location = new System.Drawing.Point(6, 19);
             this.Input1Control.Name = "Input1Control";
-            this.Input1Control.Size = new System.Drawing.Size(285, 175);
+            this.Input1Control.Size = new System.Drawing.Size(285, 189);
             this.Input1Control.TabIndex = 0;
             this.Input1Control.Tag = "Asio.Input.1";
             // 
@@ -224,7 +224,7 @@
             // 
             this.Input0Control.Location = new System.Drawing.Point(4, 20);
             this.Input0Control.Name = "Input0Control";
-            this.Input0Control.Size = new System.Drawing.Size(285, 175);
+            this.Input0Control.Size = new System.Drawing.Size(285, 188);
             this.Input0Control.TabIndex = 0;
             this.Input0Control.Tag = "Asio.Input.0";
             // 
@@ -232,7 +232,7 @@
             // 
             this.OutputControl.Location = new System.Drawing.Point(4, 19);
             this.OutputControl.Name = "OutputControl";
-            this.OutputControl.Size = new System.Drawing.Size(285, 175);
+            this.OutputControl.Size = new System.Drawing.Size(285, 189);
             this.OutputControl.TabIndex = 0;
             this.OutputControl.Tag = "Asio.Output";
             // 
@@ -240,7 +240,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(633, 460);
+            this.ClientSize = new System.Drawing.Size(633, 483);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.runRsButton);
             this.Controls.Add(this.OkButton);

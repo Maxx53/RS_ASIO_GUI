@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NAudio.Wave;
+using NAudio.Wave.Asio;
+using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 
@@ -22,15 +24,16 @@ namespace RS_ASIO_GUI
         private void Form1_Load(object sender, EventArgs e)
         {
             //Getting ASIO device list from registry
-            var devs = RegHelper.GetAsioDevices();
+            //Also you can return one object such array of tuple or keyvalue but it complicate further work
+            RegHelper.GetAsioDevices(out string[] devNames, out Guid[] devGuids);
 
             //Hiding channel from OutputControl, there's no such setting
             OutputControl.Controls["channelPanel"].Visible = false;
 
             //Filling up device combos for all usercontrols
-            (OutputControl.Controls["deviceCombo"] as ComboBox).Items.AddRange(devs);
-            (Input0Control.Controls["deviceCombo"] as ComboBox).Items.AddRange(devs);
-            (Input1Control.Controls["deviceCombo"] as ComboBox).Items.AddRange(devs);
+            OutputControl.PassArrays(devNames, devGuids);
+            Input0Control.PassArrays(devNames, devGuids);
+            Input1Control.PassArrays(devNames, devGuids);
 
             ReadSettings();
         }
@@ -60,7 +63,8 @@ namespace RS_ASIO_GUI
             var section = setCtrl.Tag.ToString();
 
             //Reading values to combobox
-            (setCtrl.Controls["deviceCombo"] as ComboBox).SelectedItem = RSIni.Read("Driver", section);
+            var devName = RSIni.Read("Driver", section);
+            (setCtrl.Controls["deviceCombo"] as ComboBox).SelectedItem = devName != string.Empty ? devName : "None";
 
             //Reading values to checkboxes
             (setCtrl.Controls["enableEndpointCheck"] as CheckBox).Checked = RSIni.Read("EnableSoftwareEndpointVolumeControl", section) == "1";
@@ -70,9 +74,13 @@ namespace RS_ASIO_GUI
             decimal.TryParse(RSIni.Read("SoftwareMasterVolumePercent", section), out decimal volumePercent);
             (setCtrl.Controls["volumeNumeric"] as NumericUpDown).Value = volumePercent;
 
-            decimal.TryParse(RSIni.Read("Channel", section), out decimal channelValue);
-            (setCtrl.Controls["channelPanel"].Controls["channelNumeric"] as NumericUpDown).Value = channelValue;
 
+            //Exclude reading from Output section, there's no channel setting
+            if (section != "Asio.Output")
+            {
+                decimal.TryParse(RSIni.Read("Channel", section), out decimal channelValue);
+                (setCtrl.Controls["channelPanel"].Controls["channelNumeric"] as NumericUpDown).Value = channelValue;
+            }
         }
 
         private void SaveSettings()
@@ -93,13 +101,26 @@ namespace RS_ASIO_GUI
             WriteSettingControl(Input1Control);
         }
 
+
+        //Prevent saving with using one channel of one device on different inputs
+        private bool CheckChannels()
+        {
+            var input1Dev = (Input0Control.Controls["deviceCombo"] as ComboBox).Text;
+            var input2Dev = (Input1Control.Controls["deviceCombo"] as ComboBox).Text;
+            var input1Ch = (Input0Control.Controls["channelPanel"].Controls["channelNumeric"] as NumericUpDown).Value;
+            var input2Ch = (Input1Control.Controls["channelPanel"].Controls["channelNumeric"] as NumericUpDown).Value;
+
+            return !((input1Dev == input2Dev) && (input1Ch == input2Ch));
+        }
+
         private void WriteSettingControl(SettingControl setCtrl)
         {
             //Info about section stored in Tag property
             var section = setCtrl.Tag.ToString();
 
             //Saving values from combobox
-            RSIni.Write("Driver", (setCtrl.Controls["deviceCombo"] as ComboBox).Text, section);
+            var devName = (setCtrl.Controls["deviceCombo"] as ComboBox).Text;
+            RSIni.Write("Driver", devName != "None" ? devName : string.Empty, section);
 
             //Saving values from checkboxes
             RSIni.Write("EnableSoftwareEndpointVolumeControl", (setCtrl.Controls["enableEndpointCheck"] as CheckBox).Checked ? "1" : "0", section);
@@ -130,8 +151,13 @@ namespace RS_ASIO_GUI
 
         private void OkButton_Click(object sender, EventArgs e)
         {
-            SaveSettings();
-            Application.Exit();
+            if (CheckChannels())
+            {
+                SaveSettings();
+                Application.Exit();
+            }
+            else 
+                MessageBox.Show("You have one channel on different inputs. Settings NOT saved!", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         private void RunRsButton_Click(object sender, EventArgs e)

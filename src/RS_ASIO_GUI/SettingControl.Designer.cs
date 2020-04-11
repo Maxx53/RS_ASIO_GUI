@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.volumeTrackBar = new System.Windows.Forms.TrackBar();
@@ -38,6 +39,10 @@
             this.label3 = new System.Windows.Forms.Label();
             this.channelNumeric = new System.Windows.Forms.NumericUpDown();
             this.channelPanel = new System.Windows.Forms.Panel();
+            this.configButton = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.DriverInfoLabel = new System.Windows.Forms.Label();
+            this.InfoUpdTimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.volumeTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.volumeNumeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.channelNumeric)).BeginInit();
@@ -56,7 +61,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(59, 118);
+            this.label1.Location = new System.Drawing.Point(59, 143);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(153, 13);
             this.label1.TabIndex = 12;
@@ -64,7 +69,7 @@
             // 
             // volumeTrackBar
             // 
-            this.volumeTrackBar.Location = new System.Drawing.Point(59, 140);
+            this.volumeTrackBar.Location = new System.Drawing.Point(59, 165);
             this.volumeTrackBar.Maximum = 100;
             this.volumeTrackBar.Name = "volumeTrackBar";
             this.volumeTrackBar.Size = new System.Drawing.Size(149, 45);
@@ -77,16 +82,17 @@
             this.deviceCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.deviceCombo.FormattingEnabled = true;
             this.deviceCombo.Items.AddRange(new object[] {
-            ""});
+            "None"});
             this.deviceCombo.Location = new System.Drawing.Point(60, 12);
             this.deviceCombo.Name = "deviceCombo";
-            this.deviceCombo.Size = new System.Drawing.Size(189, 21);
+            this.deviceCombo.Size = new System.Drawing.Size(164, 21);
             this.deviceCombo.TabIndex = 8;
+            this.deviceCombo.SelectedIndexChanged += new System.EventHandler(this.DeviceCombo_SelectedIndexChanged);
             // 
             // enableMasterCheck
             // 
             this.enableMasterCheck.AutoSize = true;
-            this.enableMasterCheck.Location = new System.Drawing.Point(59, 92);
+            this.enableMasterCheck.Location = new System.Drawing.Point(59, 117);
             this.enableMasterCheck.Name = "enableMasterCheck";
             this.enableMasterCheck.Size = new System.Drawing.Size(201, 17);
             this.enableMasterCheck.TabIndex = 7;
@@ -96,7 +102,7 @@
             // enableEndpointCheck
             // 
             this.enableEndpointCheck.AutoSize = true;
-            this.enableEndpointCheck.Location = new System.Drawing.Point(59, 69);
+            this.enableEndpointCheck.Location = new System.Drawing.Point(59, 94);
             this.enableEndpointCheck.Name = "enableEndpointCheck";
             this.enableEndpointCheck.Size = new System.Drawing.Size(211, 17);
             this.enableEndpointCheck.TabIndex = 6;
@@ -105,7 +111,7 @@
             // 
             // volumeNumeric
             // 
-            this.volumeNumeric.Location = new System.Drawing.Point(215, 140);
+            this.volumeNumeric.Location = new System.Drawing.Point(215, 165);
             this.volumeNumeric.Name = "volumeNumeric";
             this.volumeNumeric.Size = new System.Drawing.Size(55, 20);
             this.volumeNumeric.TabIndex = 13;
@@ -131,15 +137,51 @@
             // 
             this.channelPanel.Controls.Add(this.channelNumeric);
             this.channelPanel.Controls.Add(this.label3);
-            this.channelPanel.Location = new System.Drawing.Point(0, 36);
+            this.channelPanel.Location = new System.Drawing.Point(0, 61);
             this.channelPanel.Name = "channelPanel";
             this.channelPanel.Size = new System.Drawing.Size(121, 32);
             this.channelPanel.TabIndex = 14;
+            // 
+            // configButton
+            // 
+            this.configButton.Location = new System.Drawing.Point(230, 10);
+            this.configButton.Name = "configButton";
+            this.configButton.Size = new System.Drawing.Size(52, 23);
+            this.configButton.TabIndex = 15;
+            this.configButton.Text = "Config";
+            this.configButton.UseVisualStyleBackColor = true;
+            this.configButton.Click += new System.EventHandler(this.ConfigButton_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(29, 43);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(25, 13);
+            this.label4.TabIndex = 16;
+            this.label4.Text = "Info";
+            // 
+            // DriverInfoLabel
+            // 
+            this.DriverInfoLabel.AutoSize = true;
+            this.DriverInfoLabel.Location = new System.Drawing.Point(57, 43);
+            this.DriverInfoLabel.Name = "DriverInfoLabel";
+            this.DriverInfoLabel.Size = new System.Drawing.Size(33, 13);
+            this.DriverInfoLabel.TabIndex = 17;
+            this.DriverInfoLabel.Text = "None";
+            // 
+            // InfoUpdTimer
+            // 
+            this.InfoUpdTimer.Interval = 1000;
+            this.InfoUpdTimer.Tick += new System.EventHandler(this.InfoUpdTimer_Tick);
             // 
             // SettingControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.DriverInfoLabel);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.configButton);
             this.Controls.Add(this.channelPanel);
             this.Controls.Add(this.volumeNumeric);
             this.Controls.Add(this.label2);
@@ -149,7 +191,7 @@
             this.Controls.Add(this.enableMasterCheck);
             this.Controls.Add(this.enableEndpointCheck);
             this.Name = "SettingControl";
-            this.Size = new System.Drawing.Size(285, 175);
+            this.Size = new System.Drawing.Size(285, 196);
             ((System.ComponentModel.ISupportInitialize)(this.volumeTrackBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.volumeNumeric)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.channelNumeric)).EndInit();
@@ -172,5 +214,9 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown channelNumeric;
         private System.Windows.Forms.Panel channelPanel;
+        private System.Windows.Forms.Button configButton;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label DriverInfoLabel;
+        private System.Windows.Forms.Timer InfoUpdTimer;
     }
 }
